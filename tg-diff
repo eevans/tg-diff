@@ -54,12 +54,6 @@ patches()
     cd .git/refs/top-bases && find -type f | sort | cut -c 3-
 }
 
-dependency_for()
-{
-    # FIXME: properly deal with more than one dependency
-    git show $1:.topdeps | tail -n 1 
-}
-
 head()
 {
     symref=`git symbolic-ref HEAD 2>/dev/null`
@@ -78,7 +72,7 @@ assert_tools
 
 [ -z "$1" ] && BRANCH=`head` || BRANCH="$1"
 TMPDIR=`mktemp -d`
-DEPENDENCY=`dependency_for "$BRANCH"`
+DEPENDENCY="refs/top-bases/$BRANCH"
 
 for file in `tg patch "$BRANCH" | lsdiff | cut -c 3-`; do
     mkdir -p $TMPDIR/src/"`dirname $file`"
