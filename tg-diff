@@ -77,7 +77,7 @@ assert_tools
 [ -d ".git" ] || bail "Not a Git repository"
 
 [ -z "$1" ] && BRANCH=`head` || BRANCH="$1"
-TMPDIR=`mktemp -d`
+TMPDIR=`mktemp -d tmp.XXXXXX`
 DEPENDENCY=`dependency_for "$BRANCH"`
 
 for file in `tg patch "$BRANCH" | lsdiff | cut -c 3-`; do
